@@ -1,0 +1,11 @@
+{
+  "name": "whistle-identify",
+  "version": "1.0.0",
+  "description": "Whistle a tune in your browser and identify the song.",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test": "node test/run-tests.js"
+  },
+  "license": "MIT"
+}
