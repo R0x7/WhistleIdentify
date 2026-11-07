@@ -24,6 +24,20 @@ Browsers only allow microphone access on `https://` or `localhost`.
   on every push to `main`. Turn it on once in **Settings → Pages → Source: GitHub Actions**,
   then open `https://<user>.github.io/<repo>/`.
 
+## Android app
+
+Every commit to `main` builds an Android APK in GitHub Actions (`.github/workflows/android.yml`).
+The app is the same web app wrapped with [Capacitor](https://capacitorjs.com/).
+
+- **Download:** the newest APK is always at
+  `https://github.com/<user>/<repo>/releases/download/android-latest/whistle-identify.apk`.
+  Each workflow run also keeps a copy as a run artifact.
+- **Install:** open the APK on your phone. Allow installs from your browser if Android asks.
+  New builds install over the old one, because they're all signed with the same key (`ci/debug.keystore`).
+  That is a debug key, not a secret. Before publishing to the Play Store, switch to a private release key.
+- **Build it yourself:** you need Node 22+, JDK 21 and the Android SDK (`ANDROID_HOME` set).
+  Run `npm ci && ./scripts/build-android.sh`. The output is `build/whistle-identify.apk`.
+
 ## How it works
 
 | Step | File | What happens |
