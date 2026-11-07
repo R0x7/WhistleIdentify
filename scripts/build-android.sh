@@ -29,6 +29,12 @@ for perm in RECORD_AUDIO MODIFY_AUDIO_SETTINGS; do
   fi
 done
 
+# Sign with the repo's fixed debug key (ci/debug.keystore) so every build,
+# local or CI, installs over the previous one instead of being rejected.
+if ! grep -q "ci/debug.keystore" "android/app/build.gradle"; then
+  sed -i '0,/^android {/s##android {\n    signingConfigs {\n        debug {\n            storeFile file("../../ci/debug.keystore")\n            storePassword "android"\n            keyAlias "androiddebugkey"\n            keyPassword "android"\n        }\n    }#' android/app/build.gradle
+fi
+
 # Stamp the version so each build installs over the previous one.
 GRADLE=android/app/build.gradle
 sed -i -E "s/versionCode [0-9]+/versionCode ${VERSION_CODE}/; s/versionName \"[^\"]*\"/versionName \"${VERSION_NAME}\"/" "$GRADLE"
